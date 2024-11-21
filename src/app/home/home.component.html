@@ -1,14 +1,10 @@
-  <p-galleria 
-    [value]="images" 
-    [responsiveOptions]="responsiveOptions" 
-    [containerStyle]="{ 'max-width': '640px' }" 
-    [numVisible]="5">
-        <ng-template pTemplate="item" let-item>
-            <img [src]="item.itemImageSrc" style="width: 100%;" />
-        </ng-template>
-        <ng-template pTemplate="thumbnail" let-item>
-            <div class="grid grid-nogutter justify-content-center">
-                <img [src]="item.thumbnailImageSrc" />
-            </div>
-        </ng-template>
-</p-galleria>
+<div *ngIf="images.length==0">
+    Pas d'images disponible
+    <button class="btn btn-outline-primary btn-block mt-5" (click)="goToGenerator()"
+    style="width: 100%;">Générer une image</button>
+    
+</div>
+<gallery [items]="images2"></gallery>
+<div *ngIf="images.length>0">
+
+</div>

@@ -1,15 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ColorEvent } from 'ngx-color';
-import { ColorChromeModule } from 'ngx-color/chrome'
+import { ColorChromeModule } from 'ngx-color/chrome';
 import { ImportsModule } from '../prime';
+import { ImageItem, PhotoService } from '../service/photo.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-generator',
   standalone: true,
-  imports: [ColorChromeModule,FormsModule,ImportsModule],
+  imports: [ColorChromeModule, FormsModule, ImportsModule],
   templateUrl: './generator.component.html',
-  styleUrl: './generator.component.scss'
+  styleUrl: './generator.component.scss',
 })
 export class GeneratorComponent {
   @ViewChild('memeCanvas', { static: false }) myCanvas: any;
@@ -19,18 +21,14 @@ export class GeneratorComponent {
   fileEvent: any;
   textColor: String = '#000000';
   backgroundColor: String = '#F9F9FB';
-
-  constructor() { }
+  constructor(private photoService: PhotoService) {}
 
   ngOnInit(): void {
+    this.photoService.getImages().subscribe(images => console.log(images))
   }
 
   preview(e: any) {
     this.fileEvent = e;
-
-    console.log("Preview Function Working");
-    console.log(e);
-
     let canvas = this.myCanvas.nativeElement;
     let ctx = canvas.getContext('2d');
 
@@ -46,8 +44,8 @@ export class GeneratorComponent {
 
       img.onload = function () {
         ctx.drawImage(img, 50, 150, 600, 500);
-      }
-    }
+      };
+    };
   }
 
   drawText() {
@@ -88,30 +86,7 @@ export class GeneratorComponent {
 
   saveImgToLocalStorage() {
     const canvas = this.myCanvas.nativeElement;
-    const image = canvas.toDataURL('image/png'); // Convert canvas to Base64 string
-
-    // Save to localStorage
-    localStorage.setItem('savedImage', image);
-
-    // Load the image into the Galleria
-    this.loadGalleriaImages();
+    const image = canvas.toDataURL('image/png');
+    this.photoService.createItem(image);
   }
-
-  loadGalleriaImages() {
-    const savedImage = localStorage.getItem('savedImage');
-    if (savedImage) {
-      this.images = [
-        {
-          itemImageSrc: savedImage,
-          thumbnailImageSrc: savedImage,
-          alt: 'Saved Image',
-          title: 'Canvas Image'
-        }
-      ];
-    }
-  }
-
-  images: any[] = []; // Galleria images
-  
-
 }
