@@ -25,14 +25,15 @@ export class HomeComponent {
   ngOnInit() {
     const savedImages = JSON.parse(localStorage.getItem('images') || '[]');
     this.images = savedImages;
-    console.log(this.images[0].itemImageSrc);
-    this.images.forEach((element: any) => {
-      this.images2.push(new ImageItem({
-        src:element.itemImageSrc,
-        thumb: 'IMAGE_THUMBNAIL_URL'
-      }))
-    });
- 
+    if(this.images.length){
+      console.log(this.images[0].itemImageSrc);
+      this.images.forEach((element: any) => {
+        this.images2.push(new ImageItem({
+          src:element.itemImageSrc,
+          thumb: element.itemImageSrc
+        }))
+      });
+    }
   }
 
   goToGenerator() {

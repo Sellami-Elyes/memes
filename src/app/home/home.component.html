@@ -1,10 +1,20 @@
-<div *ngIf="images.length==0">
-    Pas d'images disponible
-    <button class="btn btn-outline-primary btn-block mt-5" (click)="goToGenerator()"
-    style="width: 100%;">Générer une image</button>
-    
+<div *ngIf="images.length == 0" class="indisponible">
+  <p class="title">Pas d'images disponible</p>
+  <button
+    class="btn btn-outline-primary btn-block mt-5 button"
+    (click)="goToGenerator()"
+    style="width: 100%"
+  >
+    Générer une image
+  </button>
 </div>
-<gallery [items]="images2"></gallery>
-<div *ngIf="images.length>0">
 
+<div *ngIf="images.length > 0">
+  <gallery
+    [items]="images2"
+    bulletPosition="bottom"
+    bullets
+    [autoplay]="true"
+    thumbs
+  ></gallery>
 </div>
